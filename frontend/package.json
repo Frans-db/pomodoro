@@ -2,11 +2,12 @@
   "name": "frontend",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.3.4",
     "vue": "^3.2.16"
   },
   "devDependencies": {
@@ -14,8 +15,9 @@
     "autoprefixer": "^10.4.0",
     "postcss": "^8.3.11",
     "tailwindcss": "^2.2.19",
+    "tailwindcss-debug-screens": "^2.2.0",
     "typescript": "^4.4.3",
-    "vite": "^2.6.4",
+    "vite": "^2.6.14",
     "vue-tsc": "^0.3.0"
   }
 }

@@ -1,11 +1,17 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <div class="w-32 h-32 bg-black"></div>
+<div class="w-full flex flex-col items-center pt-14">
+    <Clock></Clock>
+</div>
 </template>
 
 <script lang="ts">
+import Clock from "./components/Clock.vue";
+
 export default {
   name: "App",
+  components: {
+      Clock
+  }
 };
 </script>
 

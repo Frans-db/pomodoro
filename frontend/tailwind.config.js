@@ -1,11 +1,21 @@
 module.exports = {
+  mode: 'jit',
   purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+        fontSize: {
+            '7.5xl': '5.5rem'
+        },
+    },
   },
   variants: {
-    extend: {},
+    extend: {
+        backgroundColor: ['active']
+    },
   },
-  plugins: [],
+  plugins: [
+      require('tailwindcss-debug-screens'),
+    //   require('@tailwindcss/forms'),
+  ],
 }
