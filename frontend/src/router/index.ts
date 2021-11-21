@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 import About from '../views/About.vue';
 import Pomodoro from '../views/Pomodoro.vue';
+import Overview from '../views/Overview.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -13,6 +14,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/about',
         name: 'About',
         component: About,
+    },
+    {
+        path: '/overview',
+        name: 'Overview',
+        component: Overview,
     },
 ];
 
