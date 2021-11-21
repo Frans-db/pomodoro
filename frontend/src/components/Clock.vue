@@ -33,7 +33,6 @@
           <span>:</span>
           <input
             :disabled="isRunning"
-
             @change="onSecondsChange()"
             type="number"
             min="0"
@@ -72,7 +71,7 @@
       tracking-wide
     "
   >
-    {{ isRunning ? 'Stop' : 'Start' }}
+    {{ isRunning ? "Stop" : "Start" }}
   </a>
 </template>
 
@@ -110,41 +109,49 @@ export default defineComponent({
         this.seconds = 59;
       }
     },
-    toggleTimer() {
-        if (!this.isRunning) {
-            this.startTimer();
-        } else {
-            this.stopTimer();
-        }
+    async toggleTimer() {
+      if (!this.isRunning) {
+        this.startTimer();
+      } else {
+        await this.stopTimer();
+      }
     },
     startTimer() {
-        this.isRunning = true;
-        this.startTime = Date.now();
-        this.intervalId = setInterval(this.step, 1000);
+      this.isRunning = true;
+      this.startTime = Math.round(Date.now());
+      this.intervalId = setInterval(this.step, 1000);
     },
-    stopTimer() {
-        this.isRunning = false;
-        this.minutes = 15;
-        this.seconds = 0;
-        clearInterval(this.intervalId);
+    async stopTimer() {
+      this.isRunning = false;
+      this.minutes = 15;
+      this.seconds = 0;
+      clearInterval(this.intervalId);
 
-        const totalTime = Math.round((Date.now() - this.startTime) / 1000);
-        console.log(totalTime);
+      const duration = Math.round((Date.now() - this.startTime) / 1000);
+      const res = await fetch("api/pomodoros", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          startTime: this.startTime,
+          duration: duration,
+        }),
+      });
     },
-    step() {
+    async step() {
       this.seconds -= 1;
-      if (this.seconds < 0) {
+      if (this.seconds == 0) {
         this.seconds = 59;
         this.minutes -= 1;
       }
       if (this.minutes < 0) {
-          this.stopTimer();
-          const context = new AudioContext();
-          context.resume().then(() => {
-            const audio = new Audio('/public/alarm.mp3');
-            audio.play();
-
-          })
+        await this.stopTimer();
+        const context = new AudioContext();
+        context.resume().then(() => {
+          const audio = new Audio("/public/alarm.mp3");
+          audio.play();
+        });
       }
     },
   },

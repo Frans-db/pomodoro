@@ -1,7 +1,8 @@
 const PORT = 5000;
 
 const express = require("express");
-const routes = require("./routes");
+const pomodoroRoutes = require("./routes/pomodoro");
+const devRoutes = require("./routes/pomodoro");
 const mongoose = require("mongoose");
 
 mongoose
@@ -9,7 +10,8 @@ mongoose
   .then(() => {
     const app = express();
     app.use(express.json());
-    app.use("/api", routes);
+    app.use("/api", pomodoroRoutes);
+    app.use("/dev", devRoutes);
 
     app.listen(PORT, () => {
       console.log(`Server is live on http://localhost:${PORT}`);
