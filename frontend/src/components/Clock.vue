@@ -141,7 +141,7 @@ export default defineComponent({
     },
     async step() {
       this.seconds -= 1;
-      if (this.seconds == 0) {
+      if (this.seconds <= 0) {
         this.seconds = 59;
         this.minutes -= 1;
       }

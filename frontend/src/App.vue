@@ -1,18 +1,17 @@
 <template>
-<div class="w-full flex flex-col items-center pt-14">
-    <Clock></Clock>
-</div>
+  <div class="w-full flex justify-center space-x-16 text-sm text-gray-800 mt-2">
+    <router-link to="/">Pomodoro</router-link>
+    <span>|</span>
+    <router-link to="/about">About</router-link>
+  </div>
+  <router-view />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Clock from "./components/Clock.vue";
 
 export default defineComponent({
   name: "App",
-  components: {
-      Clock
-  }
 });
 </script>
 
