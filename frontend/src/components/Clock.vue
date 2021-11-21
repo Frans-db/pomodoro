@@ -15,22 +15,37 @@
         <!-- <input type="time" value="15:00" class="appearance-none bg-gray-50 p-0 text-7xl md:text-7.5xl font-black text-gray-700 font-mono"> -->
         <div class="text-7xl md:text-7.5xl font-black text-gray-700 font-mono">
           <input
+            :disabled="isRunning"
             @change="onMinutesChange()"
             type="number"
             min="0"
             max="60"
             v-model.number="minutes"
-            class="w-[5.6rem] md:w-[6.7rem] bg-gray-50 font-black appearance-none"
+            class="
+              w-[5.6rem]
+              md:w-[6.7rem]
+              bg-gray-50
+              font-black
+              appearance-none
+            "
             id=""
           />
           <span>:</span>
           <input
+            :disabled="isRunning"
+
             @change="onSecondsChange()"
             type="number"
             min="0"
             max="60"
-            value="00"
-            class="w-[5.6rem] md:w-[6.7rem] bg-gray-50 font-black appearance-none"
+            v-model.number="seconds"
+            class="
+              w-[5.6rem]
+              md:w-[6.7rem]
+              bg-gray-50
+              font-black
+              appearance-none
+            "
             id=""
           />
         </div>
@@ -39,7 +54,7 @@
   </div>
 
   <a
-    @click="logValues()"
+    @click="toggleTimer()"
     class="
       mt-12
       px-10
@@ -47,6 +62,8 @@
       py-4
       md:py-3
       bg-gray-50
+      hover:bg-gray-100
+      active:bg-gray-300
       text-gray-900
       rounded-3xl
       text-3xl
@@ -55,17 +72,22 @@
       tracking-wide
     "
   >
-    Start
+    {{ isRunning ? 'Stop' : 'Start' }}
   </a>
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "Clock",
   data() {
     return {
       minutes: 15,
       seconds: 0,
+      intervalId: -1,
+      isRunning: false,
+      startTime: -1,
     };
   },
   methods: {
@@ -88,6 +110,43 @@ export default {
         this.seconds = 59;
       }
     },
+    toggleTimer() {
+        if (!this.isRunning) {
+            this.startTimer();
+        } else {
+            this.stopTimer();
+        }
+    },
+    startTimer() {
+        this.isRunning = true;
+        this.startTime = Date.now();
+        this.intervalId = setInterval(this.step, 1000);
+    },
+    stopTimer() {
+        this.isRunning = false;
+        this.minutes = 15;
+        this.seconds = 0;
+        clearInterval(this.intervalId);
+
+        const totalTime = Math.round((Date.now() - this.startTime) / 1000);
+        console.log(totalTime);
+    },
+    step() {
+      this.seconds -= 1;
+      if (this.seconds < 0) {
+        this.seconds = 59;
+        this.minutes -= 1;
+      }
+      if (this.minutes < 0) {
+          this.stopTimer();
+          const context = new AudioContext();
+          context.resume().then(() => {
+            const audio = new Audio('/public/alarm.mp3');
+            audio.play();
+
+          })
+      }
+    },
   },
-};
+});
 </script>
