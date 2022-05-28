@@ -147,11 +147,11 @@ export default defineComponent({
       }
       if (this.minutes < 0) {
         await this.stopTimer();
-        const context = new AudioContext();
-        context.resume().then(() => {
-          const audio = new Audio("/public/alarm.mp3");
-          audio.play();
-        });
+        // const context = new AudioContext();
+        // context.resume().then(() => {
+        const audio = new Audio("/public/alarm.mp3");
+        audio.play();
+        // });
       }
     },
   },

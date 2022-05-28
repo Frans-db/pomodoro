@@ -1,9 +1,35 @@
 <template>
-  <ul>
-    <li v-for="pomodoro in pomodoros" :key="pomodoro._id">
-      {{ pomodoro.duration }} | {{ pomodoro._id }}
-    </li>
-  </ul>
+  <div class="flex flex-col items-center">
+    <div class="rounded-lg shadow border-b">
+      <table class="divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th
+              v-for="title in titles"
+              :key="title"
+              class="
+                px-6
+                py-3
+                text-xs text-left
+                font-medium
+                tracking-wider
+                text-gray-500
+                uppercase
+              "
+            >
+              {{ title }}
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white">
+          <tr v-for="pomodoro in pomodoros" :key="pomodoro._id">
+            <td>{{ pomodoro.startTime }}</td>
+            <td>{{ pomodoro.duration }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -15,6 +41,7 @@ export default defineComponent({
   data() {
     return {
       pomodoros: [] as Pomodoro[],
+      titles: ["Start Time", "Duration"],
     };
   },
   methods: {
